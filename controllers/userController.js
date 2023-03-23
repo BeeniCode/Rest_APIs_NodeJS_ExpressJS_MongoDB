@@ -1,7 +1,7 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const TOKEN_SECRET = "sadahfldaldf";
 exports.find = async (req, res) => {
   try {
     const result = await userModel.find();
@@ -63,6 +63,6 @@ exports.login = async (req, res) => {
   const validPass = await bcrypt.compare(password, user.password);
   if (!validPass) return res.status(400).send("Wrong password");
 
-  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+  const token = jwt.sign({ _id: user._id }, TOKEN_SECRET);
   res.header("auth-token", token).send(token);
 };
